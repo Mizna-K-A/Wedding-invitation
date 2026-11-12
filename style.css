@@ -930,6 +930,7 @@ body {
 
 }
 @media (max-width: 600px) {
+  .container { padding: 0 1.25rem; }
   .countdown-wrap { gap: .5rem; }
   .countdown-item { padding: .9rem 1rem; min-width: 68px; }
   .cd-num { font-size: 1.8rem; }
@@ -948,15 +949,19 @@ body {
 
 .hero-bismillah {
   font-family: var(--font-arabic);
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(1.35rem, 4.8vw, 3.2rem);
   color: var(--gold-light);
   direction: rtl;
+  text-align: center;
+  width: 100%;
+  max-width: calc(100vw - 2.5rem);
+  overflow-wrap: break-word;
   margin-top: clamp(2rem, 4vw, 3.5rem);
   margin-bottom: 0.8rem;
   padding-top: 0.5rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   text-shadow: 0 2px 14px rgba(184, 151, 106, 0.45);
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 .quran-quote-card {
@@ -971,22 +976,33 @@ body {
   text-align: center;
 }
 
-.quran-quote-card::before {
-  content: '﷽';
-  display: block;
+@media (max-width: 600px) {
+  .quran-quote-card {
+    padding: 1.7rem 1.25rem;
+  }
+}
+
+.quran-bismillah {
   font-family: var(--font-arabic);
-  font-size: 1.5rem;
+  font-size: clamp(1.15rem, 3.8vw, 1.65rem);
+  line-height: 1.85;
   color: var(--gold);
-  margin-bottom: 0.6rem;
-  opacity: 0.85;
+  direction: rtl;
+  text-align: center;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  margin-bottom: 0.8rem;
+  opacity: 0.9;
 }
 
 .quran-arabic {
   font-family: var(--font-arabic);
-  font-size: clamp(1.4rem, 3.2vw, 1.95rem);
+  font-size: clamp(1.3rem, 3.2vw, 1.95rem);
   line-height: 1.9;
   color: var(--brown-dark);
   direction: rtl;
+  max-width: 100%;
+  overflow-wrap: break-word;
   margin-bottom: 1.2rem;
 }
 
@@ -1052,10 +1068,12 @@ body {
 
 .dua-arabic {
   font-family: var(--font-arabic);
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-size: clamp(1.25rem, 3vw, 1.8rem);
   line-height: 1.9;
   color: var(--brown);
   direction: rtl;
+  max-width: 100%;
+  overflow-wrap: break-word;
   margin-bottom: 0.6rem;
 }
 
