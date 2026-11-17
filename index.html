@@ -24,7 +24,6 @@
       <li><a href="#story">Our Story</a></li>
       <li><a href="#events">Events</a></li>
       <li><a href="#gallery">Gallery</a></li>
-      <!-- <li><a href="#rsvp">RSVP</a></li> -->
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" onclick="toggleNav()" id="nav-toggle" aria-label="Toggle menu">&#9776;</button>
@@ -256,7 +255,11 @@
       <div class="time-venue-row reveal">
         <div class="info-pill">
           <span class="info-icon">🕐</span>
-          <span>10:00 AM — Nikah Ceremony &amp; Feast</span>
+          <span>Program: 10:00 AM – 2:00 PM</span>
+        </div>
+        <div class="info-pill">
+          <span class="info-icon">💍</span>
+          <span>Nikah Ceremony: 11:00 AM</span>
         </div>
         <div class="info-pill">
           <span class="info-icon">📍</span>
@@ -268,8 +271,11 @@
         <a href="https://maps.app.goo.gl/QxR1hThK6hF8n8ob9" target="_blank" class="btn-outline" id="map-btn">
           📍 View Venue on Map
         </a>
-        <button type="button" class="btn-gold" onclick="openCardModal()" id="card-btn">
-          <span>💌 View Official Wedding Card</span>
+        <button type="button" class="btn-gold" onclick="openCalendarModal()" id="calendar-btn">
+          <span>📅 Set Phone Reminder</span>
+        </button>
+        <button type="button" class="btn-outline" onclick="openCardModal()" id="card-btn">
+          <span>💌 View Wedding Card</span>
         </button>
       </div>
 
@@ -424,8 +430,16 @@
           </div>
           <div class="event-card__details">
             <div class="event-card__row">
-              <span class="event-card__icon">🕥</span>
-              <span><strong>10:00 AM</strong> — Nikah Ceremony &amp; Khutbah</span>
+              <span class="event-card__icon">🕐</span>
+              <span><strong>10:00 AM – 2:00 PM</strong> — Wedding Program</span>
+            </div>
+            <div class="event-card__row">
+              <span class="event-card__icon">💍</span>
+              <span><strong>11:00 AM</strong> — Auspicious Nikah Ceremony</span>
+            </div>
+            <div class="event-card__row">
+              <span class="event-card__icon">🍽️</span>
+              <span><strong>12:00 PM onwards</strong> — Grand Walima Feast &amp; Reception</span>
             </div>
             <div class="event-card__row">
               <span class="event-card__icon">🏛️</span>
@@ -436,21 +450,6 @@
               View PCK Auditorium on Map →
             </a>
 
-            <div class="event-card__divider"></div>
-
-            <div class="event-card__row">
-              <span class="event-card__icon">🍽️</span>
-              <span><strong>11:30 AM</strong> — Grand Walima Feast &amp; Reception</span>
-            </div>
-            <div class="event-card__row">
-              <span class="event-card__icon">📍</span>
-              <span>PCK Auditorium Dining &amp; Banquet, Vellangallur</span>
-            </div>
-            <a href="https://maps.app.goo.gl/QxR1hThK6hF8n8ob9" target="_blank" class="event-card__map-link"
-              id="reception-map">
-              Get Turn-by-Turn Directions →
-            </a>
-
             <div class="venue-qr-preview" style="margin-top: 1.2rem; width: 100%; box-sizing: border-box;">
               <span style="font-size: 0.8rem; color: var(--gold); font-weight: 600; letter-spacing: 0.08em;">📍 Official
                 Venue Location QR</span>
@@ -458,7 +457,7 @@
                 style="width: 130px; height: 130px; border-radius: 8px; border: 1px solid rgba(184,151,106,0.3); margin: 0.4rem 0;" />
               <button type="button" onclick="openCardModal()" class="btn-gold"
                 style="padding: 0.5rem 1.2rem; font-size: 0.78rem; margin-top: 0.2rem;">
-                View Original Card
+                View Wedding Card
               </button>
             </div>
           </div>
@@ -582,69 +581,151 @@
   </section>
 
   <!-- ═══════════════════════════════════ -->
-  <!--  RSVP SECTION                       -->
+  <!--  RSVP & GUEST ATTENDANCE SECTION   -->
   <!-- ═══════════════════════════════════ -->
-  <!-- <section id="rsvp" class="rsvp-section section section--warm">
+  <section id="rsvp" class="rsvp-section section section--warm">
     <div class="container container--narrow">
-      <div class="section-label">— Kindly Reply —</div>
-      <h2 class="section-title serif">RSVP</h2>
-      <p class="invitation-body">Please let us know if you can join us. We would be honoured to have you at our
-        celebration.</p>
-      <form class="rsvp-form reveal" id="rsvp-form" onsubmit="handleRSVP(event)" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rsvp-name">Full Name</label>
-            <input type="text" id="rsvp-name" placeholder="Your full name" required />
+
+      <!-- Decorative wedding flourish -->
+      <div class="confirm-ornament reveal">
+        <span class="ornament-line"></span>
+        <span class="ornament-gem">✦ ❖ ✦</span>
+        <span class="ornament-line"></span>
+      </div>
+
+      <div class="section-label">— Kindly Confirm —</div>
+      <h2 class="section-title serif">We Saved a Seat for You</h2>
+      <p class="invitation-body">
+        Our celebration wouldn't be complete without you. Kindly let us know if you'll be joining us on our special day.
+      </p>
+
+      <!-- Guest Registration Card Wrapper (Preserving Original Warm Wedding Theme) -->
+      <div class="guest-card-wrapper reveal">
+
+        <!-- Form State: Warm Card with requested text -->
+        <div id="guest-form-container" class="guest-form-card">
+          <div class="guest-form-header">
+            <div class="card-mini-badge">💌 </div>
+            <h3 class="serif">We Saved a Seat for You</h3>
+            <p>Our celebration wouldn't be complete without you. Kindly let us know if you'll be joining us on our special day.</p>
           </div>
-          <div class="form-group">
-            <label for="rsvp-phone">Phone Number</label>
-            <input type="tel" id="rsvp-phone" placeholder="Your phone number" required />
+
+          <div class="card-gold-divider"></div>
+
+          <form class="guest-form" id="guest-form" onsubmit="handleGuestSubmit(event)" novalidate>
+            <div class="form-group luxury-form-group">
+              <label for="guest-name" class="luxury-label">
+                <span class="label-gem">✦</span> YOUR NAME
+              </label>
+
+              <!-- Refined Luxury Input Box -->
+              <div class="luxury-input-box">
+                <span class="luxury-input-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8976a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  id="guest-name"
+                  name="name"
+                  class="luxury-guest-input"
+                  placeholder="Enter your name (e.g., Ameer &amp; Family)"
+                  required
+                  autocomplete="name"
+                  oninput="handleNameInput(this)"
+                />
+                <button type="button" id="btn-clear-name" class="btn-clear-input hidden" onclick="clearNameInput()" aria-label="Clear text">✕</button>
+              </div>
+
+              <!-- Quick options line -->
+              <div class="quick-options-line">
+                <span class="quick-options-label">Quick options:</span>
+                <button type="button" class="quick-option-link" onclick="appendTag(' &amp; Family')">+ &amp; Family</button>
+                <button type="button" class="quick-option-link" onclick="appendTag(' &amp; Spouse')">+ &amp; Spouse</button>
+                <button type="button" class="quick-option-link" onclick="appendTag(' (Just Me)')">+ Just Me</button>
+              </div>
+
+              <!-- Live typing preview badge -->
+              <div id="name-live-preview" class="name-live-preview hidden">
+                <span class="preview-lead">Honoured Guest:</span>
+                <strong id="live-name-display"></strong>
+              </div>
+
+              <!-- Meaningful note -->
+              <div class="meaningful-note">
+                <span>Every guest makes our day more meaningful 🌸</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary guest-submit-btn" id="guest-submit">
+              <span class="btn-submit-text">Joyfully Confirm Your Presence ❤️</span>
+            </button>
+          </form>
+
+          <div class="guest-card-footer">
+            <span class="with-love-note">With love, Ajmal &amp; Muhsina</span>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="rsvp-guests">Number of Guests</label>
-            <select id="rsvp-guests">
-              <option value="1">1 — Just me</option>
-              <option value="2" selected>2 — Myself &amp; a guest</option>
-              <option value="3">3 Guests</option>
-              <option value="4">4 Guests</option>
-              <option value="5">5+ Guests</option>
-            </select>
+
+        <!-- Celebratory Success Pass State -->
+        <div id="guest-success" class="guest-pass-card hidden">
+          <div class="pass-sparkle-top">✨ 💐 ✨</div>
+          <div class="pass-bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+          <h3 class="serif pass-title">Attendance Confirmed!</h3>
+          <p class="pass-subtitle">Alhamdulillah, we are thrilled to welcome you!</p>
+
+          <div class="pass-ticket">
+            <div class="ticket-header">
+              <span class="ticket-badge">HONOURED GUEST</span>
+              <span class="ticket-date">27 DEC 2026</span>
+            </div>
+            <div class="ticket-guest-name" id="success-guest-name">Guest Name</div>
+            <div class="ticket-event-info">
+              <div class="ticket-info-row">
+                <span class="ticket-icon">💍</span>
+                <span><strong>Nikah Ceremony:</strong> 11:00 AM (Ajmal &amp; Muhsina)</span>
+              </div>
+              <div class="ticket-info-row">
+                <span class="ticket-icon">🕐</span>
+                <span><strong>Program:</strong> 10:00 AM – 2:00 PM · Dec 27, 2026</span>
+              </div>
+              <div class="ticket-info-row">
+                <span class="ticket-icon">📍</span>
+                <span>PCK Auditorium, Vellangallur, Kerala</span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="rsvp-event">Attending Event</label>
-            <select id="rsvp-event">
-              <option value="all" selected>All Events</option>
-              <option value="engagement">Engagement Only</option>
-              <option value="wedding-eve">Wedding Eve Only</option>
-              <option value="wedding">Wedding &amp; Reception</option>
-            </select>
+
+          <!-- Quick Action Buttons -->
+          <div class="pass-actions">
+            <button
+              type="button"
+              onclick="openCalendarModal()"
+              class="pass-btn pass-btn--calendar"
+            >
+              <span>📅 Add to Phone Calendar</span>
+            </button>
+            <a
+              href="https://maps.app.goo.gl/QxR1hThK6hF8n8ob9"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="pass-btn pass-btn--map"
+            >
+              <span>📍 Get Directions</span>
+            </a>
+          </div>
+
+          <div class="pass-footer-actions">
+            <button type="button" class="btn-text-link" onclick="resetGuestForm()">
+              <span>+ Register Another Family Member</span>
+            </button>
           </div>
         </div>
-        <div class="form-group">
-          <label for="rsvp-message">Personal Message (Optional)</label>
-          <textarea id="rsvp-message" rows="3" placeholder="Share your wishes with the couple…"></textarea>
-        </div>
-        <div class="radio-group">
-          <label class="radio-pill" id="radio-accept">
-            <input type="radio" name="attend" value="yes" checked />
-            <span>✓ Joyfully Accepts</span>
-          </label>
-          <label class="radio-pill" id="radio-decline">
-            <input type="radio" name="attend" value="no" />
-            <span>✗ Regretfully Declines</span>
-          </label>
-        </div>
-        <button type="submit" class="btn-primary" id="rsvp-submit">Send RSVP 💌</button>
-      </form>
-      <div id="rsvp-success" class="rsvp-success hidden">
-        <div class="success-icon">💌</div>
-        <h3>Thank You!</h3>
-        <p>Your RSVP has been received. We look forward to celebrating with you!</p>
+
       </div>
     </div>
-  </section> -->
+  </section>
 
   <!-- ═══════════════════════════════════ -->
   <!--  CONTACT SECTION                    -->
@@ -675,7 +756,7 @@
 
       <div style="margin-top: 1.5rem;" class="reveal">
         <button type="button" onclick="openCardModal()" class="btn-gold">
-          <span>💌 View Original Wedding Invitation Card</span>
+          <span>💌 View Wedding Invitation Card</span>
         </button>
       </div>
     </div>
@@ -684,8 +765,11 @@
   <footer class="footer">
     <p class="script footer-names">Ajmal &amp; Muhsina</p>
     <p class="footer-date">December 27, 2026 · Vellangallur, Kerala, India</p>
-    <div class="footer-divider">◆</div>
+    <!-- <div class="footer-divider">◆</div> -->
     <p class="footer-copy">With Duas &amp; Love for our blessed beginning</p>
+    <!-- <div class="footer-guest-link-wrap">
+      <a href="guest-count.html" class="footer-guest-link">📊 View Guest Count</a>
+    </div> -->
   </footer>
 
   <!-- ═══════════════════════════════════ -->
@@ -715,9 +799,112 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════ -->
+  <!--  CALENDAR REMINDER MODAL            -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="calendar-modal" class="card-modal calendar-modal" role="dialog" aria-modal="true" aria-labelledby="cal-modal-title"
+    onclick="if(event.target===this) closeCalendarModal()">
+    <div class="calendar-modal__dialog">
+      <button class="card-modal__close" onclick="closeCalendarModal()" aria-label="Close modal">✕</button>
+
+      <div class="cal-modal-header">
+        <div class="cal-modal-badge">✦ SAVE THE DATE ✦</div>
+        <h3 id="cal-modal-title" class="serif">Set Phone Reminder</h3>
+        <p class="cal-modal-subtitle">
+          Add the Nikah ceremony to your phone calendar. We've set automatic reminder alarms for 1 day and 2 hours before the event!
+        </p>
+      </div>
+
+      <div class="cal-event-summary">
+        <div class="cal-event-row">
+          <span class="cal-icon">💍</span>
+          <div>
+            <strong>Nikah Ceremony at 11:00 AM</strong>
+            <span>Ajmal &amp; Muhsina · Feast &amp; Reception</span>
+          </div>
+        </div>
+        <div class="cal-event-row">
+          <span class="cal-icon">🗓️</span>
+          <div>
+            <strong>Sunday, December 27, 2026</strong>
+            <span>Program: 10:00 AM – 2:00 PM (Nikah at 11:00 AM)</span>
+          </div>
+        </div>
+        <div class="cal-event-row">
+          <span class="cal-icon">📍</span>
+          <div>
+            <strong>PCK Auditorium</strong>
+            <span>Vellangallur, Kerala</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-modal-options">
+        <!-- Apple Calendar (iPhone / iPad / Mac) -->
+        <button type="button" class="cal-option-btn cal-option-btn--apple" onclick="downloadWeddingICS()">
+          <span class="cal-btn-icon">🍏</span>
+          <div class="cal-btn-text">
+            <strong>Apple Calendar (iPhone / iPad / Mac)</strong>
+            <span>1-Tap to add with automatic 1-day &amp; 2-hour phone alarms</span>
+          </div>
+          <span class="cal-btn-action">Add ➔</span>
+        </button>
+
+        <!-- Google Calendar (Android / Web) -->
+        <button type="button" class="cal-option-btn cal-option-btn--google" onclick="openGoogleCalendar()">
+          <span class="cal-btn-icon">📅</span>
+          <div class="cal-btn-text">
+            <strong>Google Calendar (Android / Gmail)</strong>
+            <span>Opens Google Calendar app with event pre-filled</span>
+          </div>
+          <span class="cal-btn-action">Open ➔</span>
+        </button>
+
+        <!-- Universal ICS File -->
+        <button type="button" class="cal-option-btn cal-option-btn--ics" onclick="downloadWeddingICS()">
+          <span class="cal-btn-icon">📥</span>
+          <div class="cal-btn-text">
+            <strong>Other Phone Calendar (.ics file)</strong>
+            <span>Universal calendar invite for Samsung Calendar, Outlook, etc.</span>
+          </div>
+          <span class="cal-btn-action">Download ➔</span>
+        </button>
+      </div>
+
+      <p class="cal-modal-footnote">
+        🌸 <em>Includes venue address &amp; location map link for easy navigation on the day!</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!--  FLOATING CALENDAR REMINDER TOAST   -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="calendar-toast" class="calendar-toast hidden" role="alert">
+    <div class="toast-content">
+      <div class="toast-icon-wrap">
+        <span class="toast-icon">🔔</span>
+        <span class="toast-pulse"></span>
+      </div>
+      <div class="toast-text">
+        <span class="toast-badge">SAVE THE DATE</span>
+        <h4 class="toast-title">Dec 27, 2026 · Nikah at 11:00 AM</h4>
+        <p class="toast-desc">Program: 10:00 AM – 2:00 PM · Set a reminder in your phone calendar!</p>
+      </div>
+    </div>
+    <div class="toast-actions">
+      <button type="button" class="toast-btn toast-btn--primary" onclick="openCalendarModal(); dismissCalendarToast(true);">
+        <span>📅 Set Reminder</span>
+      </button>
+      <button type="button" class="toast-btn toast-btn--close" onclick="dismissCalendarToast(true)" aria-label="Dismiss">
+        ✕
+      </button>
+    </div>
+  </div>
+
   <div id="petals" class="petals-container" aria-hidden="true"></div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=2.2"></script>
 </body>
 
 </html>
