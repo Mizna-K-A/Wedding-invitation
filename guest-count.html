@@ -29,7 +29,7 @@
     <header class="count-page__header">
       <div class="count-page__brand script">Ajmal &amp; Muhsina</div>
       <h1 class="count-page__title serif">Guest Count &amp; Attendance</h1>
-      <p class="count-page__sub">Nikah Ceremony: 11:00 AM (Program: 10:00 AM – 2:00 PM) · December 27, 2026 · PCK Auditorium, Vellangallur</p>
+      <p class="count-page__sub">Nikah Ceremony: 11:00 AM (Program: 10:00 AM – 2:00 PM) · December 27, 2026 · 1448 Rajab 17 · PCK Auditorium, Vellangallur</p>
     </header>
 
     <!-- Main Counter Card -->
@@ -42,6 +42,7 @@
       <div>
         <div class="count-big-number" id="guest-total-count">0</div>
         <div class="count-label-sub">Total Confirmed Guests</div>
+        <div class="count-entries-sub" id="guest-entries-count" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.35rem; font-family: var(--font-serif); font-style: italic;">0 Confirmations</div>
       </div>
 
       <div class="count-actions-bar">
@@ -83,9 +84,10 @@
         <table class="guests-table" id="guests-table">
           <thead>
             <tr>
-              <th style="width: 70px; text-align: center;">#</th>
+              <th style="width: 60px; text-align: center;">#</th>
               <th>Guest Name</th>
-              <th style="width: 220px;">Confirmed On</th>
+              <th style="width: 110px; text-align: center;">Members</th>
+              <th style="width: 210px;">Confirmed On</th>
             </tr>
           </thead>
           <tbody id="guests-tbody">
@@ -111,7 +113,7 @@
 
   </div>
 
-  <script src="script.js?v=2.2"></script>
+  <script src="script.js?v=2.3"></script>
   <script>
     // Immediate execution guarantee
     if (typeof loadGuestCountData === 'function') {

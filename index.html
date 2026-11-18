@@ -132,7 +132,7 @@
 
       <!-- Date badge -->
       <div class="hero-date-badge fade-in-up delay-1">
-        December · 27 · 2026
+        December · 27 · 2026 &nbsp;✦&nbsp; 1448 Rajab 17
       </div>
 
       <!-- SVG animated name — Ajmal -->
@@ -250,6 +250,13 @@
           <span class="date-label">Year</span>
           <span class="date-value script-lg">2026</span>
         </div>
+      </div>
+
+      <div class="hijri-date-banner reveal">
+        <span class="hijri-moon">🌙</span>
+        <span class="hijri-en">1448 Rajab 17</span>
+        <span class="hijri-sep">·</span>
+        <span class="hijri-ar" dir="rtl" lang="ar">١٧ رجب ١٤٤٨ هـ</span>
       </div>
 
       <div class="time-venue-row reveal">
@@ -427,6 +434,7 @@
             <span class="event-card__day">27</span>
             <span class="event-card__month">December 2026</span>
             <span class="event-card__weekday">Sunday</span>
+            <span class="event-card__hijri">🌙 1448 Rajab 17 · ١٧ رجب ١٤٤٨ هـ</span>
           </div>
           <div class="event-card__details">
             <div class="event-card__row">
@@ -652,6 +660,41 @@
                 <strong id="live-name-display"></strong>
               </div>
 
+              <!-- Number of Members Attending -->
+              <div class="members-field-wrap">
+                <label for="guest-members" class="luxury-label">
+                  <span class="label-gem">✦</span> NUMBER OF MEMBERS ATTENDING
+                </label>
+
+                <div class="members-stepper-box">
+                  <button type="button" class="stepper-btn" onclick="adjustMembers(-1)" aria-label="Decrease members">−</button>
+                  <div class="members-input-center">
+                    <input
+                      type="number"
+                      id="guest-members"
+                      name="members"
+                      class="members-number-input"
+                      value="1"
+                      min="1"
+                      max="50"
+                      required
+                      oninput="handleMembersInput(this)"
+                    />
+                    <span class="members-unit-label" id="members-unit-label">Member</span>
+                  </div>
+                  <button type="button" class="stepper-btn" onclick="adjustMembers(1)" aria-label="Increase members">+</button>
+                </div>
+
+                <!-- Quick member presets -->
+                <div class="members-presets">
+                  <button type="button" class="member-preset-pill active" data-count="1" onclick="setMembers(1)">1</button>
+                  <button type="button" class="member-preset-pill" data-count="2" onclick="setMembers(2)">2</button>
+                  <button type="button" class="member-preset-pill" data-count="3" onclick="setMembers(3)">3</button>
+                  <button type="button" class="member-preset-pill" data-count="4" onclick="setMembers(4)">4</button>
+                  <button type="button" class="member-preset-pill" data-count="5" onclick="setMembers(5)">5</button>
+                </div>
+              </div>
+
               <!-- Meaningful note -->
               <div class="meaningful-note">
                 <span>Every guest makes our day more meaningful 🌸</span>
@@ -672,16 +715,20 @@
         <div id="guest-success" class="guest-pass-card hidden">
           <div class="pass-sparkle-top">✨ 💐 ✨</div>
           <div class="pass-bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-          <h3 class="serif pass-title">Attendance Confirmed!</h3>
+          <h3 class="serif pass-title">Thank You for Being a Part of Us!</h3>
           <p class="pass-subtitle">Alhamdulillah, we are thrilled to welcome you!</p>
 
           <div class="pass-ticket">
             <div class="ticket-header">
               <span class="ticket-badge">HONOURED GUEST</span>
-              <span class="ticket-date">27 DEC 2026</span>
+              <span class="ticket-date">27 DEC 2026 · 1448 RAJAB 17</span>
             </div>
             <div class="ticket-guest-name" id="success-guest-name">Guest Name</div>
             <div class="ticket-event-info">
+              <div class="ticket-info-row">
+                <span class="ticket-icon">👥</span>
+                <span><strong>Members Attending:</strong> <span id="success-guest-members">1 Member</span></span>
+              </div>
               <div class="ticket-info-row">
                 <span class="ticket-icon">💍</span>
                 <span><strong>Nikah Ceremony:</strong> 11:00 AM (Ajmal &amp; Muhsina)</span>
@@ -765,7 +812,7 @@
 
   <footer class="footer">
     <p class="script footer-names">Ajmal &amp; Muhsina</p>
-    <p class="footer-date">December 27, 2026 · Vellangallur, Kerala, India</p>
+    <p class="footer-date">December 27, 2026 · 1448 Rajab 17 · Vellangallur, Kerala, India</p>
     <!-- <div class="footer-divider">◆</div> -->
     <p class="footer-copy">With Duas &amp; Love for our blessed beginning</p>
     <!-- <div class="footer-guest-link-wrap">
@@ -827,7 +874,7 @@
         <div class="cal-event-row">
           <span class="cal-icon">🗓️</span>
           <div>
-            <strong>Sunday, December 27, 2026</strong>
+            <strong>Sunday, December 27, 2026 · 1448 Rajab 17</strong>
             <span>Program: 10:00 AM – 2:00 PM (Nikah at 11:00 AM)</span>
           </div>
         </div>
@@ -905,7 +952,7 @@
 
   <div id="petals" class="petals-container" aria-hidden="true"></div>
 
-  <script src="script.js?v=2.2"></script>
+  <script src="script.js?v=2.3"></script>
 </body>
 
 </html>

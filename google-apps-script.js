@@ -68,16 +68,32 @@ function handleGuestRequest(e) {
       setupHeader(sheet);
     } else if (sheet.getLastRow() === 0) {
       setupHeader(sheet);
+    } else if (String(sheet.getRange(1, 4).getValue() || "").trim() === "") {
+      // Auto-upgrade existing 3-column sheet to include Members column
+      const col4Header = sheet.getRange(1, 4);
+      col4Header.setValue("Members");
+      col4Header.setFontWeight("bold");
+      col4Header.setBackground("#f7efe3");
+      col4Header.setFontColor("#5c3d2e");
+      col4Header.setHorizontalAlignment("center");
+      sheet.setColumnWidth(4, 110);
     }
 
-    // Extract guest name from GET query parameter or POST body
+    // Extract guest name and member count from GET query parameter or POST body
     let guestName = "";
+    let memberCount = 1;
     if (e && e.parameter && e.parameter.name) {
       guestName = e.parameter.name;
+      if (e.parameter.members) {
+        memberCount = Math.max(1, parseInt(e.parameter.members, 10) || 1);
+      }
     } else if (e && e.postData && e.postData.contents) {
       try {
         const body = JSON.parse(e.postData.contents);
         guestName = body.name || "";
+        if (body.members) {
+          memberCount = Math.max(1, parseInt(body.members, 10) || 1);
+        }
       } catch (parseErr) {
         guestName = e.parameter ? e.parameter.name : "";
       }
@@ -96,22 +112,24 @@ function handleGuestRequest(e) {
         "dd MMM yyyy, hh:mm:ss a"
       );
 
-      sheet.appendRow([serialNumber, istTimestamp, cleanName]);
+      sheet.appendRow([serialNumber, istTimestamp, cleanName, memberCount]);
 
       // Auto-align and style new row
       const newRowIdx = sheet.getLastRow();
       sheet.getRange(newRowIdx, 1).setHorizontalAlignment("center");
       sheet.getRange(newRowIdx, 2).setHorizontalAlignment("center");
       sheet.getRange(newRowIdx, 3).setHorizontalAlignment("left");
+      sheet.getRange(newRowIdx, 4).setHorizontalAlignment("center");
     }
 
-    // Total guest count is total rows minus header row
-    const totalCount = Math.max(0, sheet.getLastRow() - 1);
+    // Total rows minus header row
+    const totalRows = Math.max(0, sheet.getLastRow() - 1);
 
-    // Retrieve full guest list for the guest-count page
+    // Retrieve full guest list and sum total members
     let guestsList = [];
-    if (totalCount > 0) {
-      const values = sheet.getRange(2, 1, totalCount, 3).getValues();
+    let totalMembers = 0;
+    if (totalRows > 0) {
+      const values = sheet.getRange(2, 1, totalRows, 4).getValues();
       guestsList = values.map(function(row) {
         let timeStr = "";
         if (row[1] instanceof Date) {
@@ -119,19 +137,24 @@ function handleGuestRequest(e) {
         } else {
           timeStr = String(row[1] || "");
         }
+        const members = Math.max(1, parseInt(row[3], 10) || 1);
+        totalMembers += members;
         return {
           sl: row[0],
           time: timeStr,
-          name: String(row[2] || "")
+          name: String(row[2] || ""),
+          members: members
         };
       });
     }
 
     const response = {
       status: "success",
-      count: totalCount,
+      count: totalMembers,
+      entries: totalRows,
       guests: guestsList,
-      name: guestName ? guestName.trim() : null
+      name: guestName ? guestName.trim() : null,
+      members: memberCount
     };
 
     return ContentService
@@ -152,10 +175,10 @@ function handleGuestRequest(e) {
 }
 
 function setupHeader(sheet) {
-  sheet.appendRow(["Sl No.", "Timestamp (IST)", "Guest Name"]);
+  sheet.appendRow(["Sl No.", "Timestamp (IST)", "Guest Name", "Members"]);
   
   // Elegant styling for wedding sheet header
-  const headerRange = sheet.getRange(1, 1, 1, 3);
+  const headerRange = sheet.getRange(1, 1, 1, 4);
   headerRange.setFontWeight("bold");
   headerRange.setBackground("#f7efe3");
   headerRange.setFontColor("#5c3d2e");
@@ -163,6 +186,7 @@ function setupHeader(sheet) {
   sheet.setColumnWidth(1, 70);
   sheet.setColumnWidth(2, 220);
   sheet.setColumnWidth(3, 260);
+  sheet.setColumnWidth(4, 110);
   sheet.setFrozenRows(1);
 }
 

@@ -2531,3 +2531,200 @@ body {
   }
 }
 
+/* ══════════════════════════════════════════ */
+/*  NUMBER OF MEMBERS INPUT & STEPPER         */
+/*  (Warm Cream, Gold & Brown Wedding Theme)  */
+/* ══════════════════════════════════════════ */
+.members-field-wrap {
+  margin-top: 1.45rem;
+}
+
+.members-stepper-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffdfa;
+  border: 1.5px solid rgba(184, 151, 106, 0.38);
+  border-radius: 50px;
+  padding: 0.35rem 0.5rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 10px rgba(92, 61, 46, 0.04);
+}
+
+.members-stepper-box:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(184, 151, 106, 0.16);
+}
+
+.stepper-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 151, 106, 0.35);
+  background: var(--cream-warm);
+  color: var(--brown-dark);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-family: var(--font-serif);
+}
+
+.stepper-btn:hover {
+  background: var(--gold);
+  color: #ffffff;
+  border-color: var(--gold);
+  transform: scale(1.04);
+}
+
+.stepper-btn:active {
+  transform: scale(0.96);
+}
+
+.members-input-center {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.members-number-input {
+  width: 58px;
+  text-align: center;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+  padding: 0.2rem 0 !important;
+  margin: 0 !important;
+  -moz-appearance: textfield;
+}
+
+.members-number-input::-webkit-outer-spin-button,
+.members-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.members-unit-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.members-presets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.member-preset-pill {
+  min-width: 42px;
+  height: 32px;
+  padding: 0 0.75rem;
+  border-radius: 50px;
+  border: 1px solid rgba(184, 151, 106, 0.35);
+  background: #fffdfa;
+  color: var(--brown);
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.member-preset-pill:hover {
+  border-color: var(--gold);
+  background: var(--cream-warm);
+}
+
+.member-preset-pill.active {
+  background: linear-gradient(135deg, var(--gold) 0%, #9a7647 100%);
+  color: #ffffff;
+  border-color: var(--gold);
+  box-shadow: 0 3px 10px rgba(184, 151, 106, 0.3);
+}
+
+.guest-members-badge {
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+  background: rgba(184, 151, 106, 0.16);
+  border: 1px solid rgba(184, 151, 106, 0.35);
+  padding: 0.22rem 0.65rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════ */
+/*  HIJRI / ARABIC DATE DISPLAY               */
+/* ══════════════════════════════════════════ */
+.hijri-date-banner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin: -1.1rem auto 2rem;
+  padding: 0.55rem 1.45rem;
+  background: #fffdfa;
+  border: 1px solid rgba(184, 151, 106, 0.4);
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(92, 61, 46, 0.08);
+  color: var(--brown-dark);
+}
+
+.hijri-moon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hijri-en {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--brown-dark);
+}
+
+.hijri-sep {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.hijri-ar {
+  font-family: 'Amiri', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.event-card__hijri {
+  display: inline-block;
+  margin-top: 0.55rem;
+  padding: 0.28rem 0.95rem;
+  background: rgba(184, 151, 106, 0.14);
+  border: 1px solid rgba(184, 151, 106, 0.35);
+  border-radius: 50px;
+  font-family: 'Amiri', var(--font-serif), serif;
+  font-size: 0.95rem;
+  color: var(--brown);
+  letter-spacing: 0.04em;
+}
+

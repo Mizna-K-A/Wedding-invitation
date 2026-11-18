@@ -175,13 +175,11 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
  * Follow the instructions in google-apps-script.js or GOOGLE_SHEET_SETUP.md.
  * If left empty (""), the form runs in local demo mode and saves to localStorage.
  */
-const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7FoIGtCCy3TOfigTdX72xQvF37RLL8UZiK_bkZ7T67-7J4amYZ65lmoqXdiCOr9w/exec";
+const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWfJL_P2-zUGx_xVcljWzAFddbarFuOzssuSaNX3EHaLeyF9fdV7g8rmSLyBr9jn2u/exec";
 
 // Save guest to localStorage fallback
-function saveGuestLocally(name) {
-  const currentCount = parseInt(localStorage.getItem('wedding_guest_count') || '0', 10);
-  const updatedCount = currentCount + 1;
-  localStorage.setItem('wedding_guest_count', updatedCount);
+function saveGuestLocally(name, members) {
+  const memberCount = Math.max(1, parseInt(members, 10) || 1);
 
   let list = [];
   try {
@@ -195,13 +193,51 @@ function saveGuestLocally(name) {
                   now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   list.unshift({
-    sl: updatedCount,
+    sl: list.length + 1,
     name: name,
+    members: memberCount,
     time: timeStr
   });
 
+  const totalMembers = list.reduce((sum, g) => sum + (parseInt(g.members, 10) || 1), 0);
   localStorage.setItem('wedding_guest_list', JSON.stringify(list));
-  return updatedCount;
+  localStorage.setItem('wedding_guest_count', totalMembers);
+  return totalMembers;
+}
+
+// ── Members Counter Helpers ──
+function adjustMembers(delta) {
+  const input = document.getElementById('guest-members');
+  if (!input) return;
+  const current = parseInt(input.value, 10) || 1;
+  const next = Math.max(1, Math.min(50, current + delta));
+  setMembers(next);
+}
+
+function setMembers(count) {
+  const input = document.getElementById('guest-members');
+  const clean = Math.max(1, Math.min(50, parseInt(count, 10) || 1));
+  if (input) input.value = clean;
+  updateMembersUI(clean);
+}
+
+function handleMembersInput(input) {
+  const raw = parseInt(input.value, 10);
+  if (isNaN(raw)) return;
+  const clean = Math.max(1, Math.min(50, raw));
+  if (raw > 50) input.value = 50;
+  updateMembersUI(clean);
+}
+
+function updateMembersUI(count) {
+  const unitLabel = document.getElementById('members-unit-label');
+  if (unitLabel) {
+    unitLabel.textContent = count === 1 ? 'Member' : 'Members';
+  }
+  document.querySelectorAll('.member-preset-pill').forEach(pill => {
+    const val = parseInt(pill.getAttribute('data-count'), 10);
+    pill.classList.toggle('active', val === count);
+  });
 }
 
 // ── Real-Time Luxury Input UX Helpers ──
@@ -249,6 +285,18 @@ function appendTag(tag) {
     input.select();
   }
   handleNameInput(input);
+
+  // Smart default member count hint when quick option is tapped
+  const membersInput = document.getElementById('guest-members');
+  const currentMembers = membersInput ? (parseInt(membersInput.value, 10) || 1) : 1;
+  if (tag.includes('Spouse') && currentMembers === 1) {
+    setMembers(2);
+  } else if (tag.includes('Family') && currentMembers === 1) {
+    setMembers(4);
+  } else if (tag.includes('Just Me')) {
+    setMembers(1);
+  }
+
   input.focus();
 }
 
@@ -298,13 +346,15 @@ function fireConfetti() {
   }
 }
 
-// ── INDEX.HTML: Handle guest name form submission ──
+// ── INDEX.HTML: Handle guest name & member count form submission ──
 function handleGuestSubmit(e) {
   e.preventDefault();
 
   const nameInput = document.getElementById('guest-name');
+  const membersInput = document.getElementById('guest-members');
   const btn = document.getElementById('guest-submit');
   const name = nameInput ? nameInput.value.trim() : '';
+  const members = Math.max(1, Math.min(50, parseInt(membersInput ? membersInput.value : '1', 10) || 1));
 
   if (!name) {
     if (nameInput) {
@@ -319,11 +369,11 @@ function handleGuestSubmit(e) {
   btn.disabled = true;
 
   // Always keep local list updated as well
-  saveGuestLocally(name);
+  saveGuestLocally(name, members);
 
   // If Google Sheet Web App URL is configured
   if (GOOGLE_SHEET_SCRIPT_URL && GOOGLE_SHEET_SCRIPT_URL.trim() !== "") {
-    const url = `${GOOGLE_SHEET_SCRIPT_URL}?name=${encodeURIComponent(name)}&t=${Date.now()}`;
+    const url = `${GOOGLE_SHEET_SCRIPT_URL}?name=${encodeURIComponent(name)}&members=${encodeURIComponent(members)}&t=${Date.now()}`;
 
     fetch(url, { cache: 'no-store' })
       .then(res => res.json())
@@ -331,28 +381,33 @@ function handleGuestSubmit(e) {
         if (data && data.status === 'success' && typeof data.count === 'number') {
           localStorage.setItem('wedding_guest_count', data.count);
         }
-        showGuestSuccess(name, btn, originalBtnHTML);
+        showGuestSuccess(name, members, btn, originalBtnHTML);
       })
       .catch(err => {
         console.warn('Google Sheet submission warning (falling back gracefully):', err);
-        showGuestSuccess(name, btn, originalBtnHTML);
+        showGuestSuccess(name, members, btn, originalBtnHTML);
       });
   } else {
     // Local / Demo mode when Google Sheet URL is not configured yet
     setTimeout(() => {
-      showGuestSuccess(name, btn, originalBtnHTML);
+      showGuestSuccess(name, members, btn, originalBtnHTML);
     }, 600);
   }
 }
 
 // Show celebratory guest pass on index.html
-function showGuestSuccess(name, btn, originalBtnHTML) {
+function showGuestSuccess(name, members, btn, originalBtnHTML) {
   const formCard = document.getElementById('guest-form-container') || document.getElementById('guest-form');
   const successBox = document.getElementById('guest-success');
   const nameDisplay = document.getElementById('success-guest-name');
+  const membersDisplay = document.getElementById('success-guest-members');
 
   if (nameDisplay) {
     nameDisplay.textContent = name;
+  }
+  if (membersDisplay) {
+    const m = Math.max(1, parseInt(members, 10) || 1);
+    membersDisplay.textContent = `${m} ${m === 1 ? 'Member' : 'Members'}`;
   }
   if (formCard) {
     formCard.classList.add('hidden');
@@ -379,6 +434,7 @@ function resetGuestForm() {
 
   if (successBox) successBox.classList.add('hidden');
   if (formCard) formCard.classList.remove('hidden');
+  setMembers(1);
   if (nameInput) {
     nameInput.value = '';
     handleNameInput(nameInput);
@@ -415,6 +471,7 @@ function initGuestCountPage() {
 
 function loadGuestCountData(animate) {
   const totalCountEl = document.getElementById('guest-total-count');
+  const entriesCountEl = document.getElementById('guest-entries-count');
   const statusEl = document.getElementById('guest-sync-status');
   if (!totalCountEl) return;
 
@@ -429,17 +486,26 @@ function loadGuestCountData(animate) {
       .then(res => res.json())
       .then(data => {
         if (data && data.status === 'success') {
-          const count = typeof data.count === 'number' ? data.count : 0;
-          totalCountEl.textContent = count;
-          localStorage.setItem('wedding_guest_count', count);
-          if (count === 0) {
-            localStorage.setItem('wedding_guest_list', '[]');
-          }
-
           if (data.guests && Array.isArray(data.guests)) {
             allGuestsData = data.guests;
           } else {
             allGuestsData = getLocalGuestList();
+          }
+
+          // Compute total members sum (falls back to data.count if guests list is empty)
+          const sumMembers = allGuestsData.reduce((sum, g) => sum + (parseInt(g.members, 10) || 1), 0);
+          const count = allGuestsData.length > 0
+            ? sumMembers
+            : (typeof data.count === 'number' ? data.count : 0);
+
+          totalCountEl.textContent = count;
+          if (entriesCountEl) {
+            const entries = allGuestsData.length;
+            entriesCountEl.textContent = `${entries} ${entries === 1 ? 'Confirmation' : 'Confirmations'}`;
+          }
+          localStorage.setItem('wedding_guest_count', count);
+          if (count === 0) {
+            localStorage.setItem('wedding_guest_list', '[]');
           }
 
           renderGuestTable(allGuestsData);
@@ -460,9 +526,18 @@ function loadGuestCountData(animate) {
 }
 
 function fallbackToLocalCount(totalCountEl, statusEl, animate) {
+  const entriesCountEl = document.getElementById('guest-entries-count');
   allGuestsData = getLocalGuestList();
-  const count = allGuestsData.length || parseInt(localStorage.getItem('wedding_guest_count') || '0', 10);
+  const sumMembers = allGuestsData.reduce((sum, g) => sum + (parseInt(g.members, 10) || 1), 0);
+  const count = allGuestsData.length > 0
+    ? sumMembers
+    : parseInt(localStorage.getItem('wedding_guest_count') || '0', 10);
   totalCountEl.textContent = count;
+
+  if (entriesCountEl) {
+    const entries = allGuestsData.length;
+    entriesCountEl.textContent = `${entries} ${entries === 1 ? 'Confirmation' : 'Confirmations'}`;
+  }
 
   renderGuestTable(allGuestsData);
 
@@ -507,11 +582,13 @@ function renderGuestTable(guests) {
     const tr = document.createElement('tr');
     const slNumber = g.sl || (guests.length - index);
     const guestName = escapeHtml(g.name || 'Guest');
+    const memberCount = Math.max(1, parseInt(g.members, 10) || 1);
     const guestTime = escapeHtml(g.time || '—');
 
     tr.innerHTML = `
       <td style="text-align: center;"><span class="guest-sl-badge">${slNumber}</span></td>
       <td class="guest-name-cell">${guestName}</td>
+      <td style="text-align: center;"><span class="guest-members-badge">${memberCount} 👥</span></td>
       <td class="guest-time-cell">${guestTime}</td>
     `;
     tbody.appendChild(tr);
