@@ -173,17 +173,20 @@ body {
 /* ══════════════════════════════════════════ */
 .hero-content {
   position: relative; z-index: 10;
+  width: 100%; max-width: 100%; box-sizing: border-box;
   display: flex; flex-direction: column; align-items: center;
-  gap: 0; padding: clamp(110px, 14vh, 130px) 2rem 2.5rem;
+  gap: 0; padding: clamp(105px, 14vh, 130px) 1.5rem 2.5rem;
   text-align: center;
 }
 
 /* ── Top label row ── */
 .hero-top-row {
-  display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin-bottom: 1rem;
+  width: 100%; max-width: 680px;
 }
 .hero-line-dec {
-  display: block; width: 60px; height: 1px;
+  display: block; width: 50px; flex-shrink: 0; height: 1px;
   background: linear-gradient(to right, transparent, var(--gold));
 }
 .hero-top-row .hero-line-dec:last-child {
@@ -191,21 +194,27 @@ body {
 }
 .hero-pre {
   font-family: var(--font-serif); font-style: italic;
-  color: var(--text-muted); font-size: clamp(.82rem, 1.6vw, 1rem);
-  letter-spacing: .18em; white-space: nowrap;
+  color: var(--text-muted); font-size: clamp(.85rem, 1.6vw, 1rem);
+  letter-spacing: clamp(.06em, .35vw, .16em);
+  white-space: normal; line-height: 1.55;
+  text-wrap: balance;
 }
 
 /* ── Date badge ── */
 .hero-date-badge {
-  display: inline-flex; align-items: center;
+  display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 100%; box-sizing: border-box;
   border: 1px solid var(--gold);
-  border-radius: 50px; padding: .4rem 1.6rem;
-  font-family: var(--font-serif); font-size: clamp(.72rem, 1.3vw, .88rem);
-  letter-spacing: .22em; text-transform: uppercase;
+  border-radius: 50px; padding: .45rem 1.4rem;
+  font-family: var(--font-serif); font-size: clamp(.7rem, 1.3vw, .88rem);
+  letter-spacing: clamp(.1em, .35vw, .2em); text-transform: uppercase;
   color: var(--gold); margin-bottom: 1.4rem;
   background: rgba(255,255,255,.85);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 18px rgba(184,151,106,.15);
+  line-height: 1.45;
+  text-align: center;
 }
 @media (max-width: 900px) {
   .nav { backdrop-filter: none; background: rgba(253,248,241, 0.98); }
@@ -218,9 +227,11 @@ body {
 .hero-name-block {
   line-height: 0; /* remove inline-block gap */
   margin: -0.3rem 0;
+  max-width: 100%;
 }
 .hero-svg-name {
-  width: clamp(340px, 62vw, 700px);
+  width: min(92vw, clamp(260px, 62vw, 700px));
+  max-width: 100%;
   height: auto;
   overflow: visible;
 }
@@ -266,22 +277,49 @@ body {
 /* ── Tagline ── */
 .hero-tagline {
   font-family: var(--font-serif); font-style: italic;
-  color: var(--text-muted); font-size: clamp(.88rem, 1.7vw, 1.05rem);
-  letter-spacing: .1em; margin-top: 1rem;
+  color: var(--text-muted); font-size: clamp(.92rem, 1.7vw, 1.08rem);
+  letter-spacing: clamp(.04em, .25vw, .1em);
+  line-height: 1.6;
+  max-width: 560px; width: 100%;
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+  text-wrap: balance;
 }
 
 /* ── Gold rule ── */
 .hero-rule {
-  display: flex; align-items: center; gap: 1rem; margin: 1rem 0 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; max-width: 240px;
+  gap: 1rem; margin: 1rem 0 0.8rem;
 }
 .rule-line { flex: 1; max-width: 100px; height: 1px; background: var(--gold); opacity: .5; }
 .rule-icon { color: var(--gold); font-size: .55rem; }
 
 /* ── Footer row ── */
-.hero-footer-row { margin-bottom: 0.6rem; }
+.hero-footer-row { margin-bottom: 0.6rem; max-width: 100%; padding: 0 0.5rem; }
 .hero-location {
-  font-family: var(--font-serif); font-size: clamp(.78rem, 1.4vw, .92rem);
-  letter-spacing: .1em; color: var(--text-muted);
+  font-family: var(--font-serif); font-size: clamp(.82rem, 1.4vw, .94rem);
+  letter-spacing: clamp(.04em, .25vw, .1em); color: var(--text-muted);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+@media (max-width: 600px) {
+  .hero-content {
+    padding: 96px 1.25rem 2.2rem;
+  }
+  .hero-line-dec {
+    display: none;
+  }
+  .hero-date-badge {
+    padding: 0.45rem 1.05rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .hero-tagline {
+    font-size: 0.96rem;
+    letter-spacing: 0.04em;
+  }
 }
 
 /* ── Scroll CTA ── */
@@ -1526,8 +1564,15 @@ body {
   font-style: italic; font-family: var(--font-serif);
 }
 .hashtag {
-  font-family: var(--font-script); font-size: 2.4rem;
-  color: var(--gold); margin-top: 1rem;
+  font-family: var(--font-script);
+  font-size: clamp(1.45rem, 6.2vw, 2.4rem);
+  color: var(--gold);
+  margin-top: 1rem;
+  max-width: 100%;
+  padding: 0 0.5rem;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 
 /* ══════════════════════════════════════════ */
@@ -1777,6 +1822,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  box-sizing: border-box;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -1793,8 +1839,10 @@ body {
   border-radius: 16px;
   max-width: 900px;
   width: 100%;
+  box-sizing: border-box;
   max-height: 92vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 2rem;
   position: relative;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
@@ -1804,7 +1852,7 @@ body {
 .card-modal__close {
   position: absolute;
   top: 1rem;
-  right: 1.2rem;
+  right: 1rem;
   background: rgba(255, 255, 255, 0.1);
   color: var(--gold-pale);
   border: 1px solid var(--gold);
@@ -1831,6 +1879,7 @@ body {
   font-size: 1.8rem;
   text-align: center;
   margin-bottom: 0.4rem;
+  padding: 0 2.4rem;
 }
 
 .card-modal__sub {
@@ -1842,17 +1891,23 @@ body {
 
 .card-modal__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 1.5rem;
   justify-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card-modal__page {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(184, 151, 106, 0.3);
   transition: transform 0.3s ease;
+  background: #2b1d15;
 }
 
 .card-modal__page:hover {
@@ -1863,6 +1918,23 @@ body {
   width: 100%;
   height: auto;
   display: block;
+}
+
+@media (max-width: 600px) {
+  .card-modal {
+    padding: 0.9rem;
+  }
+  .card-modal__dialog {
+    padding: 1.6rem 1.25rem;
+  }
+  .card-modal__title {
+    font-size: 1.45rem;
+    padding: 0.4rem 2.2rem 0;
+  }
+  .card-modal__grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
 }
 
 .venue-qr-preview {
